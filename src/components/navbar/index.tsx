@@ -45,7 +45,7 @@ export default function Navbar() {
   }, [dispatch, isUserLogin]);
 
   return (
-    <header className="border-b border-border bg-white py-5">
+    <header className="sticky top-0 z-50 border-b border-border bg-white py-5">
       <Container>
         <nav className="flex items-center justify-between px-4 md:px-0">
           <Link to="/" className="text-2xl font-semibold text-primary">
@@ -53,16 +53,19 @@ export default function Navbar() {
           </Link>
 
           <ul className="flex items-center gap-x-4 text-primary">
-            <Link to="/salon">
-              <li>Service Provider</li>
+            <Link to="/products">
+              <li>Products</li>
             </Link>
 
-            <Link to="/salon">
+            <Link to="/terms-and-conditions">
               <li>Terms and conditions</li>
             </Link>
 
-            <Link to="/salon">
+            <Link to="/about-us">
               <li>About us</li>
+            </Link>
+            <Link to="/contact-us">
+              <li>Contact us</li>
             </Link>
           </ul>
           {isUserLogin ? (
@@ -100,32 +103,19 @@ export default function Navbar() {
                     ref={dropdownRefProfileOption}
                   >
                     <div>
-                      <Link
-                        to="/profile"
-                        className="block text-secondary no-underline"
-                      >
+                      <div className="block text-secondary no-underline">
                         <p> {userLoginData?.userInfo?.name ?? ''} </p>
                         <p className="text-sm">
                           {userLoginData?.userInfo?.email ?? ''}
                         </p>
-                      </Link>
+                      </div>
+
                       <Link
                         to="/profile"
-                        className="block pt-3 text-sm text-primary no-underline"
-                      >
-                        Login & Security
-                      </Link>
-                      <Link
-                        to="/profile"
+                        state={{ tab: 2 }}
                         className="block pt-3 text-sm text-primary no-underline"
                       >
                         Order Details
-                      </Link>
-                      <Link
-                        to="/profile"
-                        className="block pt-3 text-sm text-primary no-underline"
-                      >
-                        Shipping Address
                       </Link>
                     </div>
 

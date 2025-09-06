@@ -14,10 +14,12 @@ import {
   MdOutlineKeyboardArrowLeft,
   MdOutlineKeyboardArrowRight,
 } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: salonList } = useFetch('/services');
+
+  const navigate = useNavigate();
 
   const [categoryId, setCategoryId] = React.useState('');
   const [searchValue, setSearchValue] = React.useState('');
@@ -65,19 +67,30 @@ export default function Home() {
       <Container>
         <section className="grid grid-cols-12 gap-5 py-20 md:gap-10">
           <div className="col-span-12 mt-10 pr-0 md:col-span-8 md:mt-20 md:pr-20">
-            <h1 className="text-5xl font-bold text-primary">Testing</h1>
-            <p className="mt-7 leading-8">descriptions</p>
+            <h1 className="text-5xl font-bold text-primary">
+              AgroFresh Connect
+            </h1>
+            <p className="mt-7 leading-8">
+              AgroFresh Connect is a platform that connects farmers with buyers.
+              We are committed to providing a platform for farmers to sell their
+              products and for buyers to buy products from farmers. We are
+              committed to providing a platform for farmers to sell their
+              products and for buyers to buy products from farmers. We are
+              committed to providing a platform for farmers to sell their
+              products and for buyers to buy products from farmers.
+            </p>
             <Button
               variant="outline"
-              text="Explore Salon Hub"
+              text="Explore AgroFresh Connect"
               type="button"
               className="mt-10 px-9 py-3 text-lg font-semibold"
+              onClick={() => navigate('/products')}
             />
           </div>
           <img
-            src="https://plushsalon.com.np/media/images/36caffa4-3b3a-4fea-9be4-bb7b3c06abff.width-400.jpg"
+            src="/banner.jpg"
             alt="image-banner"
-            className="hidden rounded-lg md:col-span-4 md:block"
+            className="hidden h-96 w-full rounded-lg object-cover md:col-span-4 md:block"
           />
         </section>
       </Container>

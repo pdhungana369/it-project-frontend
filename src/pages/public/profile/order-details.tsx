@@ -1,55 +1,37 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import StarRatings from 'react-star-ratings';
-import { userInfoAction } from '@redux/action/user.action';
-import { RootState, useAppDispatch } from '@redux/store';
-import { formatDate, formatDateTime } from '@utils/fomatDate';
+import { formatDate } from '@utils/fomatDate';
 import formatMoney from '@utils/format-money';
-import { Button, Modal, TextArea } from '@components';
-import { Form, Formik, FormikValues } from 'formik';
 import Service from '@setup/network';
-import toastAlert from '@utils/toast';
+import { IOrderDetails } from '@types';
+import { FaEye } from 'react-icons/fa6';
+import { Modal } from '@components';
 
 const OrderDetails: React.FC = () => {
-  const { userInfo } = useSelector((state: RootState) => state?.userInfoData);
-  const [bookingId, setBookingId] = useState('');
-  const [reviewModal, setReviewModal] = useState(false);
+  const [orderDetails, setOrderDetails] = useState<IOrderDetails[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState<string>('');
 
-  function handleReviewModal(bookingId) {
-    console.log('booking id', bookingId);
-    setBookingId(bookingId);
-    setReviewModal((prev) => !prev);
-  }
-  console.log('uiser id', userInfo);
-
-  async function handleSubmitReview(val: FormikValues) {
-    const payload = {
-      ...val,
-      userId: userInfo?.id,
-      bookingId,
-    };
-    console.log('payload', payload);
+  async function getOrderDetails() {
     try {
-      await Service.post('/review', payload);
-      handleReviewModal();
-      dispatch(userInfoAction());
-      toastAlert('success', 'Your review submitted successfully');
+      const { data } = await Service.get('/order-details');
+      setOrderDetails(data?.data);
     } catch (err: any) {
       console.log('errors', err?.response);
     }
   }
-
-  const dispatch = useAppDispatch();
+  const handleShowModal = (id: string) => {
+    setSelectedOrderId(id);
+    setShowModal((prev) => !prev);
+  };
+  console.log('orderDetails', orderDetails);
 
   React.useEffect(() => {
-    if (!userInfo?.email) {
-      dispatch(userInfoAction());
-    }
-  }, [dispatch, userInfo?.email]);
+    getOrderDetails();
+  }, []);
 
   return (
     <section>
-      {userInfo?.Bookings?.map((item: any) => (
+      {orderDetails?.map((item: IOrderDetails) => (
         <div className="my-5 rounded border border-border py-4" key={item?.id}>
           <div className="flex items-center justify-between border-b border-border px-4 pb-4">
             <p className="text-xs">
@@ -58,88 +40,101 @@ const OrderDetails: React.FC = () => {
                 {formatDate(item?.createdAt)}
               </span>
             </p>
-            {!item?.Review?.id && (
-              <Button
-                text="Review"
-                variant="primary"
-                className="px-4 py-1"
-                type="button"
-                onClick={() => handleReviewModal(item?.id)}
-              />
-            )}
-          </div>
-          <div className="flex items-center justify-between border-b border-border px-4 py-5 last:border-0">
             <p className="text-xs">
-              Name:
-              <span className="mx-1 font-medium">{item?.services?.name}</span>
+              Order Staus:
+              <span
+                className={`${item?.status === 'CANCELED' ? 'text-danger' : item.status === 'COMPLETED' ? 'text-[green]' : item?.status === 'PENDING' ? 'text-[yellow]' : item?.status === 'DISPATCHED' ? 'text-[blue]' : ''} mx-1 text-xs font-bold`}
+              >
+                {item?.status}
+              </span>
             </p>
-            <p className="text-xs">
-              Appointment Date:
+
+            <FaEye
+              className="cursor-pointer text-primary"
+              onClick={() => handleShowModal(item?.id)}
+            />
+          </div>
+          <div className="border-b border-border px-4 py-5 last:border-0">
+            <p className="py-2 text-xs">
+              Order Id:
+              <span className="mx-1 font-medium">{item?.orderId}</span>
+            </p>
+            <p className="py-2 text-xs">
+              Recipient Name:
+              <span className="mx-1 font-medium">{item?.recipientName}</span>
+            </p>
+            <p className="py-2 text-xs">
+              Recipient Phone Number:
               <span className="mx-1 font-medium">
-                {formatDateTime(item?.dateAndTime ?? '')}
+                {item?.recipientPhoneNumber}
               </span>
             </p>
           </div>
-          <div className="border-border px-4">
+          <div className="flex items-center justify-between border-border px-4">
             <p className="mt-4 text-sm font-semibold text-primary">
               Total Amount:
               <span className="mx-1 text-danger">
-                NPRs. {formatMoney(item?.services?.price)}
+                NPRs. {formatMoney(item?.totalPrice)}
               </span>
+            </p>
+            <p className="mt-4 text-sm font-semibold text-primary">
+              Shipping Address:
+              <span className="mx-1 text-danger">{item?.recipientAddress}</span>
             </p>
           </div>
         </div>
       ))}
-      {reviewModal && (
-        <Modal modalClose={handleReviewModal}>
-          <div className="p-7">
-            <h5 className="text-center text-xl font-semibold text-secondary">
-              Leave a Review
-            </h5>
+      {showModal && (
+        <Modal modalClose={() => setShowModal(!showModal)}>
+          <div className="p-8">
+            <h4 className="mb-6 text-center text-2xl font-bold text-primary">
+              Order Details
+            </h4>
+            {orderDetails
+              ?.filter((items: IOrderDetails) => items?.id === selectedOrderId)
+              ?.map((items: IOrderDetails) =>
+                items?.OrderItem?.map((item) => (
+                  <div
+                    key={item?.id}
+                    className="my-5 border-t border-border pb-4"
+                  >
+                    <div className="mt-5 flex items-center gap-5">
+                      <img
+                        src={item.product?.imageUrl}
+                        alt={item.product?.name}
+                        className="h-24 w-24 object-cover"
+                      />
+                      <div>
+                        <p className="py-2 text-sm">
+                          <span className="mx-2 font-semibold text-primary">
+                            Name:
+                          </span>
+                          {item.product?.name}
+                        </p>
+                        <p className="py-2 text-sm">
+                          <span className="mx-2 font-semibold text-primary">
+                            Category:
+                          </span>
+                          {item.product?.category?.name}
+                        </p>
+                        <p className="py-2 text-sm">
+                          <span className="mx-2 font-semibold text-primary">
+                            Quantity:
+                          </span>
+                          {item.quantity}
+                        </p>
 
-            <Formik
-              initialValues={{ comment: '', rating: 4 }}
-              onSubmit={handleSubmitReview}
-            >
-              {({ isSubmitting, isValid, values, setFieldValue }) => (
-                <Form>
-                  <div className="mt-10">
-                    <label
-                      htmlFor="star"
-                      className="mb-2 block text-xs font-semibold text-secondary"
-                    >
-                      Rating
-                    </label>
-
-                    <StarRatings
-                      rating={values?.rating}
-                      starRatedColor="red"
-                      changeRating={(newRating: number) =>
-                        setFieldValue('rating', newRating)
-                      }
-                      numberOfStars={5}
-                      starDimension="40px"
-                      starSpacing="5px"
-                    />
+                        <p className="py-2 text-sm">
+                          <span className="mx-2 font-semibold text-primary">
+                            Price:
+                          </span>
+                          Rs. {formatMoney(item.product?.price)}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <TextArea
-                    className="mt-10"
-                    label="YOUR REVIEW"
-                    name="comment"
-                    isPrimary={false}
-                    placeHolder="write a review"
-                  />
-                  <Button
-                    isSubmit
-                    variant="primary"
-                    text="Submit Review"
-                    isValid={isSubmitting || isValid}
-                    className="mt-10 px-5 py-2"
-                    isSubmitting={isSubmitting}
-                  />
-                </Form>
+                ))
               )}
-            </Formik>
           </div>
         </Modal>
       )}

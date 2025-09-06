@@ -79,3 +79,40 @@ export interface PlaceSuggestion {
     text: string;
   }>;
 }
+
+export interface ICategory {
+  name: string;
+}
+
+export interface IOrderProduct {
+  price: number;
+  name: string;
+  category: ICategory;
+  imageUrl: string;
+}
+
+export interface IOrderItem {
+  id: string;
+  quantity: number;
+  orderId: string;
+  productId: string;
+  createdAt: string;
+  updatedAt: string;
+  product: IOrderProduct;
+}
+
+export interface IOrderDetails {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  status: 'PENDING' | 'DISPATCHED' | 'COMPLETED' | 'CANCELED';
+  userId: string;
+  orderId: string;
+  totalAmount: string;
+  OrderItem: IOrderItem[];
+  totalPrice: number;
+  totalQuantity: number;
+  recipientAddress: string;
+  recipientName: string;
+  recipientPhoneNumber: string;
+}

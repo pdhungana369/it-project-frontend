@@ -8,7 +8,7 @@ export default function Card({ item }: ICardProps) {
   return (
     <Link
       key={item?.id}
-      to={`/salon/${item?.id}`}
+      to={`/product/${item?.id}`}
       className="rounded-md border border-border"
     >
       <img
@@ -17,7 +17,7 @@ export default function Card({ item }: ICardProps) {
           'https://kids.earth.org/wp-content/uploads/2022/04/Untitled-1024-%C3%97-768px-17.jpg'
         }
         className="h-72 w-full rounded-t-md object-cover"
-        alt="Product image"
+        alt="product image"
       />
       <div className="p-4">
         <h2 className="pt-2 text-2xl font-bold text-primary">{item?.name}</h2>

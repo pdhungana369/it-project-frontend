@@ -1,7 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { Button, Container, Footer, Modal, Navbar } from '@components';
+import {
+  Button,
+  Container,
+  Footer,
+  Modal,
+  Navbar,
+  TextField,
+} from '@components';
 import { RootState, useAppDispatch } from '@redux/store';
 import { RxCross1 } from 'react-icons/rx';
 import { modalAction } from '@redux/action/layout.action';
@@ -9,63 +15,98 @@ import Service from '@setup/network';
 import toastAlert from '@utils/toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { userInfoAction } from '@redux/action/user.action';
-import { RiMapPinFill } from 'react-icons/ri';
 import { cartGetAction, cartPostAction } from '@redux/action/cart.action';
+import axios from 'axios';
+import { RiMapPinFill } from 'react-icons/ri';
+import { Form, Formik } from 'formik';
 
 const Cart: React.FC = () => {
   const dispatch = useAppDispatch();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isLoading, setIsLoading] = React.useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [shippingModal, setShippingModal] = React.useState(false);
-  const [creditErrorMsg, setCreditErrorMsg] = React.useState('');
+
   const userDetails = useSelector(
     (state: RootState) => state?.userInfoData?.userInfo
   );
-
-  const handleShippingModal = () => {
-    setShippingModal(!shippingModal);
-  };
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsSubmitting(true);
-  };
-
-  const navigate = useNavigate();
+  console.log('cartReduxData', userDetails);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const [loadingProductId, setLoadingProductId] = React.useState<string | null>(
     null
   );
+  const [shippingModal, setShippingModal] = React.useState(false);
+  const [userDetailsFormValues, setUserDetailsFormValues] =
+    React.useState<any>();
 
   const cartReduxData = useSelector((state: RootState) => state.cartReduxData);
 
   const userReduxData = useSelector((state: RootState) => state?.userLoginData);
+  const handleShippingModal = () => {
+    setShippingModal(!shippingModal);
+  };
+  async function createOrder() {
+    setIsLoading(true);
+    try {
+      await Service.post('/order', {
+        recipientAddress: userDetailsFormValues?.recipientAddress,
+        recipientName: userDetailsFormValues?.recipientName,
+        recipientPhoneNumber: userDetailsFormValues?.recipientPhoneNumber,
+      });
+      return true;
+    } catch (error) {
+      console.error('Error creating order', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
-  const handleCheckOut = () => {
-    if (!userDetails?.addressInfo?.streetAndNumber) {
+  const handleCheckOut = async () => {
+    if (!userDetailsFormValues?.recipientAddress) {
       handleShippingModal();
       return;
     }
-    if (!userDetails?.verifiedStatus) {
-      return toastAlert('error', 'Please Update you profile at first');
+    const isOrderCreated = await createOrder();
+    if (!isOrderCreated) {
+      return;
     }
-    setCreditErrorMsg('');
-    navigate('/checkout', {
-      state: {
-        totalAmount: cartReduxData?.cart?.totalAmount,
+    const khaltiPayload = {
+      return_url: `http://localhost:3000/order-success`,
+      website_url: 'http://localhost.com:3000/',
+      amount: cartReduxData?.cart?.totalAmount,
+      purchase_order_id: cartReduxData?.cart?.id,
+      purchase_order_name: userDetails?.name,
+      customer_info: {
+        name: userDetails?.name,
+        email: userDetails?.email,
+        phone: userDetails?.phoneNumber,
       },
-    });
+    };
+
+    try {
+      const { data } = await axios.post(
+        'https://dev.khalti.com/api/v2/epayment/initiate/',
+        khaltiPayload,
+        {
+          headers: {
+            Authorization: 'Key 060d6480c16e48dfb3bb7abe7fc8208e',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      if (data?.payment_url) {
+        window.location.href = data?.payment_url;
+      }
+    } catch (err: any) {
+      toastAlert(
+        'error',
+        err?.response?.data?.message ?? 'Something went wrong'
+      );
+    }
   };
 
   const handleDeleteCart = async (id: string) => {
     if (!window.confirm('Are you sure want to delete?')) return;
-    setCreditErrorMsg('');
     try {
       await Service.delete(`/cart/${id}`);
       toastAlert('success', 'Successfully deleted the cart');
-      dispatch(cartGetAction());
     } catch (err: any) {
       toastAlert(
         'error',
@@ -74,12 +115,17 @@ const Cart: React.FC = () => {
       console.log('Error', err);
     }
   };
+  const initalValues = {
+    recipientAddress: userDetailsFormValues?.recipientAddress,
+    recipientName: userDetailsFormValues?.recipientName ?? userDetails?.name,
+    recipientPhoneNumber:
+      userDetailsFormValues?.recipientPhoneNumber ?? userDetails?.phoneNumber,
+  };
 
   const handleCartQuantityChange = async (id: string, quantity: number) => {
     if (!userReduxData?.userAuthenticate && !userReduxData?.userJwtToken) {
       return dispatch(modalAction(true));
     }
-    setCreditErrorMsg('');
     await dispatch(
       cartPostAction({
         productId: id,
@@ -92,32 +138,9 @@ const Cart: React.FC = () => {
     dispatch(userInfoAction());
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const creditPayButton =
-    cartReduxData?.cart?.totalAmount <= userDetails?.creditLimit;
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleCheckoutCredit = async () => {
-    if (!userDetails?.addressInfo?.streetAndNumber) {
-      handleShippingModal();
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const payload = {
-        amount: String(cartReduxData?.cart?.totalAmount),
-        isCredit: true,
-      };
-      const { data } = await Service.post('/order', payload);
-      navigate(`/order/success/`, {
-        state: { orderData: data?.data?.newOrder },
-      });
-      setIsLoading(false);
-    } catch (err: any) {
-      toastAlert('error', err?.response?.data?.error ?? 'Something went wrong');
-      setIsLoading(false);
-    }
+  const handleSubmit = (values: any) => {
+    setUserDetailsFormValues(values);
+    setShippingModal(!shippingModal);
   };
 
   return (
@@ -137,7 +160,7 @@ const Cart: React.FC = () => {
                 >
                   <div className="flex items-center justify-between">
                     <h4 className="text-sm font-semibold md:text-base">
-                      {item?.product.name}
+                      {item?.product?.name}
                     </h4>
                     <RxCross1
                       color="#d4222a"
@@ -148,7 +171,7 @@ const Cart: React.FC = () => {
                   </div>
                   <div className="my-5 flex items-center justify-between">
                     <p className="text-sm md:text-base">
-                      Rs. {item?.product.price}
+                      Rs. {item?.product?.price}
                     </p>
 
                     <div className="flex items-center gap-2 md:gap-3">
@@ -158,7 +181,7 @@ const Cart: React.FC = () => {
                         type="button"
                         className="px-1 md:px-2 md:py-1"
                         onClick={() =>
-                          handleCartQuantityChange(item?.product.id, -1)
+                          handleCartQuantityChange(item?.product?.id, -1)
                         }
                         isSubmitting={loadingProductId === item?.id}
                       />
@@ -171,7 +194,7 @@ const Cart: React.FC = () => {
                         variant="primary"
                         className="px-1 py-0.5 text-sm md:px-2 md:py-1 md:text-base"
                         onClick={() =>
-                          handleCartQuantityChange(item?.product.id, 1)
+                          handleCartQuantityChange(item?.product?.id, 1)
                         }
                         isSubmitting={loadingProductId === item?.id}
                       />
@@ -203,16 +226,18 @@ const Cart: React.FC = () => {
                   <h5 className="text-center text-base font-semibold text-primary md:text-2xl">
                     Shipping Address
                   </h5>
-                  {userDetails?.addressInfo?.streetAndNumber ? (
+                  {userDetailsFormValues?.recipientAddress ? (
                     <div className="my-10">
                       <div className="flex justify-between">
                         <div className="flex gap-x-2">
                           <RiMapPinFill size={20} color="#d4222a" />
                           <div>
                             <p className="text-sm font-semibold">
-                              {userDetails?.addressInfo?.receiptName}{' '}
+                              {userDetailsFormValues?.recipientName}{' '}
                               <span className="mx-1 text-text-paragraph">
-                                {userDetails?.addressInfo?.phoneNumber}{' '}
+                                {
+                                  userDetailsFormValues?.recipientPhoneNumber
+                                }{' '}
                               </span>
                             </p>
                           </div>
@@ -226,16 +251,7 @@ const Cart: React.FC = () => {
                       </div>
 
                       <p className="mx-5 my-2 text-sm text-black">
-                        {userDetails?.addressInfo?.streetAndNumber},
-                        <span className="mx-0.5">
-                          {userDetails?.addressInfo?.place},
-                        </span>
-                        <span className="mx-5.t">
-                          {userDetails?.addressInfo?.region},
-                        </span>
-                        <span className="mx-0.5">
-                          {userDetails?.addressInfo?.country}
-                        </span>
+                        {userDetailsFormValues?.recipientAddress}
                       </p>
                     </div>
                   ) : (
@@ -262,18 +278,15 @@ const Cart: React.FC = () => {
                       </span>
                     </p>
                   </div>
-                  <p className="mb-2 text-center text-xs text-danger">
-                    {creditErrorMsg}
-                  </p>
+
                   <Button
                     onClick={handleCheckOut}
-                    text="Checkout M-Pesa"
+                    text="Checkout with Khalti"
                     type="button"
                     variant="danger"
                     className="mb-2 w-full py-2"
+                    isSubmitting={isLoading}
                   />
-
-                  {/* creditPayButton */}
                 </div>
               </>
             )}
@@ -281,15 +294,47 @@ const Cart: React.FC = () => {
         </div>
       </Container>
 
+      <Footer />
       {shippingModal && (
-        <Modal modalClose={handleShippingModal} width="md:w-[70%] w-full">
-          <div className="grid grid-cols-1 gap-5 p-5 md:grid-cols-2">
-            <div className="block md:hidden">ddd</div>
-            <div>fadsasassafd</div>
-          </div>
+        <Modal modalClose={handleShippingModal} width="">
+          <Formik
+            initialValues={initalValues}
+            onSubmit={handleSubmit}
+            enableReinitialize
+          >
+            {() => (
+              <div className="p-10">
+                <h5 className="text-center text-base font-semibold text-primary md:text-2xl">
+                  Shipping Address
+                </h5>
+                <Form>
+                  <TextField
+                    label="Address"
+                    name="recipientAddress"
+                    placeholder="Enter your address"
+                  />
+                  <TextField
+                    label="Name"
+                    placeholder="Enter your name"
+                    name="recipientName"
+                  />
+                  <TextField
+                    label="Phone Number"
+                    placeholder="Enter your phone number"
+                    name="recipientPhoneNumber"
+                  />
+                  <Button
+                    type="submit"
+                    text="Submit"
+                    variant="primary"
+                    className="w-full py-2"
+                  />
+                </Form>
+              </div>
+            )}
+          </Formik>
         </Modal>
       )}
-      <Footer />
     </main>
   );
 };

@@ -38,26 +38,16 @@ export const adminSidebarData = [
   },
   {
     id: 3840,
-    title: 'Bookings',
+    title: 'Orders',
     child: [
       {
         id: 28424,
-        title: 'Booking',
-        path: '/admin/booking',
+        title: 'Orders',
+        path: '/admin/orders',
       },
     ],
   },
-  {
-    id: 3840,
-    title: 'Payment',
-    child: [
-      {
-        id: 28424,
-        title: 'Payment',
-        path: '/admin/booking',
-      },
-    ],
-  },
+
   {
     id: 33420,
     title: 'Users',
@@ -73,20 +63,20 @@ export const adminSidebarData = [
 
 export const orderStatusOptions = [
   {
-    id: 'PENDING',
-    name: 'PENDING',
+    label: 'PENDING',
+    value: 'PENDING',
   },
   {
-    id: 'DISPATCHED',
-    name: 'DISPATCHED',
+    label: 'DISPATCHED',
+    value: 'DISPATCHED',
   },
   {
-    id: 'COMPLETED',
-    name: 'COMPLETED',
+    label: 'COMPLETED',
+    value: 'COMPLETED',
   },
   {
-    id: 'CANCELED',
-    name: 'CANCELED',
+    label: 'CANCELED',
+    value: 'CANCELED',
   },
 ];
 

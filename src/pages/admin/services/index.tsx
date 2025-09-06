@@ -52,6 +52,12 @@ const AdminProduct: React.FC = () => {
         !info.getValue() ? 'Yes' : 'No',
       size: 10,
     },
+    {
+      header: 'Stock Count',
+      accessorKey: 'stockCount',
+      cell: (info: Info<{ stockCount: number }>) => info.getValue(),
+      size: 10,
+    },
 
     {
       header: 'Created At',

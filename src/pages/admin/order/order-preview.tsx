@@ -7,6 +7,7 @@ import { formatDate } from '@utils/fomatDate';
 
 const AdminOrderPreview: React.FC = () => {
   const { state } = useLocation();
+  console.log(state);
   const [orderDetailsData, setOrderDetailsData] = React.useState<any>();
 
   const fetchOrderDetail = async () => {
@@ -48,13 +49,13 @@ const AdminOrderPreview: React.FC = () => {
               <h6 className="py-2 text-sm">
                 Price:
                 <span className="mx-2 font-semibold text-primary">
-                  {item?.product?.price}{' '}
+                  Rs. {item?.product?.price}{' '}
                 </span>
               </h6>
               <h6 className="py-2 text-sm">
                 Quantity:
                 <span className="mx-2 font-semibold text-primary">
-                  {item?.quantity}{' '}
+                  {item?.quantity}
                 </span>
               </h6>
             </div>
@@ -63,20 +64,20 @@ const AdminOrderPreview: React.FC = () => {
             orderDetailsPreview?
           } */}
         </div>
-        <div className="">
+        <div className="rounded-lg border border-border p-5">
           <h4 className="text-sm font-black text-secondary">Order Details</h4>
-          <div className="mt-2 rounded-lg border border-border p-5">
+          <div className="mt-2">
             <div className="flex items-center justify-between">
               <h6 className="py-2 text-sm">
                 Total Quantity:
                 <span className="mx-2 font-semibold text-primary">
-                  {orderDetailsData?.totalQuantity}{' '}
+                  {orderDetailsData?.totalQuantity}
                 </span>
               </h6>
               <h6 className="py-2 text-sm">
                 Total Price:
                 <span className="mx-2 font-semibold text-primary">
-                  {orderDetailsData?.totalPrice}{' '}
+                  Rs.{orderDetailsData?.totalPrice}{' '}
                 </span>
               </h6>
             </div>
@@ -94,67 +95,31 @@ const AdminOrderPreview: React.FC = () => {
                 {formatDate(orderDetailsData?.createdAt)}{' '}
               </span>
             </h6>
-            <div className="my-4">
-              <h5 className="mb-4 text-center text-sm font-black text-secondary">
-                Shipping Details
-              </h5>
-              <h6 className="py-2 text-sm">
-                Receipt Name:
-                <span className="mx-2 font-semibold text-primary">
-                  {orderDetailsData?.AddressInfo?.receiptName}
-                </span>
-              </h6>
-              <h6 className="py-2 text-sm">
-                Phone Number:
-                <span className="mx-2 font-semibold text-primary">
-                  {orderDetailsData?.AddressInfo?.phoneNumber}
-                </span>
-              </h6>
-              <h6 className="py-2 text-sm">
-                Address:
-                <span className="mx-2 font-semibold text-primary">
-                  {orderDetailsData?.AddressInfo?.streetAndNumber}
-                </span>
-              </h6>
-              <h6 className="py-2 text-sm">
-                City:
-                <span className="mx-2 font-semibold text-primary">
-                  {orderDetailsData?.AddressInfo?.place}
-                </span>
-              </h6>
-              <h6 className="py-2 text-sm">
-                State/Province/Region:
-                <span className="mx-2 font-semibold text-primary">
-                  {orderDetailsData?.AddressInfo?.region}
-                </span>
-              </h6>
-              <h6 className="py-2 text-sm">
-                Country:
-                <span className="mx-2 font-semibold text-primary">
-                  {orderDetailsData?.AddressInfo?.country}
-                </span>
-              </h6>
-
-              <h6 className="py-2 text-sm">
-                Longitude:
-                <span className="mx-2 font-semibold text-primary">
-                  {orderDetailsData?.AddressInfo?.longitude ?? '-'}
-                </span>
-              </h6>
-              <h6 className="py-2 text-sm">
-                Latitude:
-                <span className="mx-2 font-semibold text-primary">
-                  {orderDetailsData?.AddressInfo?.latitude ?? '-'}
-                </span>
-              </h6>
-              <h6 className="py-2 text-sm">
-                Land Mark:
-                <span className="mx-2 font-semibold text-primary">
-                  {orderDetailsData?.AddressInfo?.landMark ?? '-'}
-                </span>
-              </h6>
-            </div>
           </div>
+          <div className="my-4">
+            <h5 className="mb-4 text-sm font-black text-secondary">
+              Shipping Details
+            </h5>
+            <h6 className="py-2 text-sm">
+              Receipt Name:
+              <span className="mx-2 font-semibold text-primary">
+                {orderDetailsData?.recipientName}
+              </span>
+            </h6>
+            <h6 className="py-2 text-sm">
+              Phone Number:
+              <span className="mx-2 font-semibold text-primary">
+                {orderDetailsData?.recipientPhoneNumber}
+              </span>
+            </h6>
+            <h6 className="py-2 text-sm">
+              Address:
+              <span className="mx-2 font-semibold text-primary">
+                {orderDetailsData?.recipientAddress}
+              </span>
+            </h6>
+          </div>
+
           {/* {
             orderDetailsPreview?
           } */}

@@ -36,7 +36,7 @@ const AdminOrders: React.FC = () => {
     pageLimit,
     setPageLimit,
     setPageNumber,
-  } = useFetchPagination('/admin/order', debouncedSearch);
+  } = useFetchPagination('/admin/orders', debouncedSearch);
 
   const [orderId, setOrderId] = React.useState('');
 
@@ -66,11 +66,6 @@ const AdminOrders: React.FC = () => {
     {
       header: 'Order By Name',
       accessorKey: 'User.name',
-      cell: (info: Info<string>) => info.getValue(),
-    },
-    {
-      header: 'Payment Method',
-      accessorKey: 'payment.method',
       cell: (info: Info<string>) => info.getValue(),
     },
     {

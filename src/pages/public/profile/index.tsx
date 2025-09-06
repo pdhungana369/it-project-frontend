@@ -1,21 +1,18 @@
-import { Footer, Navbar, UpdatePassword } from '@components';
+import { Footer, Navbar } from '@components';
 import React from 'react';
-import UpdateProfile from './update-profile';
 import OrderDetails from './order-details';
+import { useLocation } from 'react-router-dom';
 
 const tabBarData = [
   {
-    id: 0,
-    title: 'Update Profile',
-  },
-  {
     id: 2,
-    title: 'Booking Details',
+    title: 'Order Details',
   },
 ];
 
 const Profile: React.FC = () => {
-  const [activeTab, setActiveTab] = React.useState(0);
+  const location = useLocation();
+  const [activeTab, setActiveTab] = React.useState(location?.state?.tab ?? 1);
   return (
     <div>
       <Navbar />
@@ -31,8 +28,6 @@ const Profile: React.FC = () => {
         ))}
       </div>
       <div className="mx-auto w-full md:w-1/3">
-        {activeTab === 1 && <UpdatePassword type="user" />}
-        {activeTab === 0 && <UpdateProfile />}
         {activeTab === 2 && <OrderDetails />}
       </div>
       <Footer />

@@ -5,7 +5,6 @@ import {
   Home,
   Profile,
   AdminSettings,
-  PaymentStatus,
   AdminPayments,
   AdminUsers,
   TermsConditions,
@@ -17,6 +16,11 @@ import {
   AdminProduct,
   AdminAddProduct,
   Cart,
+  OrderSuccess,
+  AdminOrders,
+  AdminOrdersPreview,
+  AboutUs,
+  ContactUs,
   // AdminCart,
 } from '@pages';
 
@@ -61,6 +65,17 @@ export const adminRoutes = [
     path: '/admin/users',
     element: <AdminUsers />,
   },
+  {
+    id: 2121,
+    path: '/admin/orders',
+    element: <AdminOrders />,
+  },
+
+  {
+    id: 2121,
+    path: '/admin/order-preview',
+    element: <AdminOrdersPreview />,
+  },
 ];
 
 export const userRoutes = [
@@ -69,15 +84,16 @@ export const userRoutes = [
     path: '/profile',
     element: <Profile />,
   },
-  {
-    id: 2120,
-    path: '/payment/:requestId',
-    element: <PaymentStatus />,
-  },
+
   {
     id: 2121,
     path: '/cart',
     element: <Cart />,
+  },
+  {
+    id: 2121,
+    path: '/order-success',
+    element: <OrderSuccess />,
   },
 ];
 
@@ -103,23 +119,28 @@ export const publicPageRoutes = [
     element: <Refund />,
   },
   {
+    id: 14,
+    path: '/about-us',
+    element: <AboutUs />,
+  },
+  {
+    id: 15,
+    path: '/contact-us',
+    element: <ContactUs />,
+  },
+  {
     id: 1,
     path: '/admin/login',
     element: <AdminLogin />,
   },
   {
     id: 2,
-    path: '/salon',
+    path: '/products',
     element: <Services />,
   },
   {
     id: 3,
-    path: '/salon/:id',
+    path: '/product/:id',
     element: <Service />,
-  },
-  {
-    id: 4,
-    path: '/payment-details',
-    element: <PaymentStatus />,
   },
 ];
