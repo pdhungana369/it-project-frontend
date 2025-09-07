@@ -10,7 +10,6 @@ const AdminDashboard: any = () => {
   const adminAuthData = useSelector((state: RootState) => state.adminAuthData);
   const { data: productStockData } = useFetch('/admin/analytics');
 
-  console.log('productStockData', productStockData);
   const column = [
     {
       header: 'Image',

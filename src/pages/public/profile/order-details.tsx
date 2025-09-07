@@ -23,7 +23,6 @@ const OrderDetails: React.FC = () => {
     setSelectedOrderId(id);
     setShowModal((prev) => !prev);
   };
-  console.log('orderDetails', orderDetails);
 
   React.useEffect(() => {
     getOrderDetails();
@@ -74,7 +73,7 @@ const OrderDetails: React.FC = () => {
             <p className="mt-4 text-sm font-semibold text-primary">
               Total Amount:
               <span className="mx-1 text-danger">
-                NPRs. {formatMoney(item?.totalPrice)}
+                NPRs. {formatMoney(item?.totalAmount)}
               </span>
             </p>
             <p className="mt-4 text-sm font-semibold text-primary">
@@ -128,7 +127,10 @@ const OrderDetails: React.FC = () => {
                           <span className="mx-2 font-semibold text-primary">
                             Price:
                           </span>
-                          Rs. {formatMoney(item.product?.price)}
+                          Rs.{' '}
+                          {formatMoney(
+                            Number(items?.totalAmount) / item?.quantity ?? 0
+                          )}
                         </p>
                       </div>
                     </div>

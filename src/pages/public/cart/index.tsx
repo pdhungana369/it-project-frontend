@@ -13,7 +13,7 @@ import { RxCross1 } from 'react-icons/rx';
 import { modalAction } from '@redux/action/layout.action';
 import Service from '@setup/network';
 import toastAlert from '@utils/toast';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { userInfoAction } from '@redux/action/user.action';
 import { cartGetAction, cartPostAction } from '@redux/action/cart.action';
 import axios from 'axios';
@@ -26,7 +26,6 @@ const Cart: React.FC = () => {
   const userDetails = useSelector(
     (state: RootState) => state?.userInfoData?.userInfo
   );
-  console.log('cartReduxData', userDetails);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const [loadingProductId, setLoadingProductId] = React.useState<string | null>(
@@ -70,7 +69,7 @@ const Cart: React.FC = () => {
     const khaltiPayload = {
       return_url: `http://localhost:3000/order-success`,
       website_url: 'http://localhost.com:3000/',
-      amount: cartReduxData?.cart?.totalAmount,
+      amount: cartReduxData?.cart?.totalAmount * 100,
       purchase_order_id: cartReduxData?.cart?.id,
       purchase_order_name: userDetails?.name,
       customer_info: {
@@ -86,7 +85,7 @@ const Cart: React.FC = () => {
         khaltiPayload,
         {
           headers: {
-            Authorization: 'Key 060d6480c16e48dfb3bb7abe7fc8208e',
+            Authorization: 'Key c0464bac2a3d41bfb2b4ad6972f2f93e',
             'Content-Type': 'application/json',
           },
         }
@@ -107,6 +106,7 @@ const Cart: React.FC = () => {
     try {
       await Service.delete(`/cart/${id}`);
       toastAlert('success', 'Successfully deleted the cart');
+      dispatch(cartGetAction());
     } catch (err: any) {
       toastAlert(
         'error',

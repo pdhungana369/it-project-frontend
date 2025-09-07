@@ -7,7 +7,6 @@ import { formatDate } from '@utils/fomatDate';
 
 const AdminOrderPreview: React.FC = () => {
   const { state } = useLocation();
-  console.log(state);
   const [orderDetailsData, setOrderDetailsData] = React.useState<any>();
 
   const fetchOrderDetail = async () => {

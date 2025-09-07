@@ -26,7 +26,6 @@ interface IValue {
 const AddProduct: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  console.log('🚀 ~ state:', state);
 
   const { data: categoryData } = useFetch('/category');
 
@@ -127,7 +126,7 @@ const AddProduct: React.FC = () => {
                   placeholder="enter a price"
                   className="col-span-6"
                 />
-                 <TextField
+                <TextField
                   name="stockCount"
                   type="number"
                   label="Number of Stock"

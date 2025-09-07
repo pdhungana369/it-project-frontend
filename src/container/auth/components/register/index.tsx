@@ -64,7 +64,6 @@ export default function Register({ setShowStep }: IProps) {
       setShowStep(0);
     } catch (err: any) {
       setRegisterErrorMsg(err?.response?.data?.message);
-      console.log('error', err);
     }
   };
 

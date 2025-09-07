@@ -118,7 +118,7 @@ export default function Service() {
               />
               <BlockRender
                 label="In Stock"
-                value={productDetail?.outOfStock ? 'Yes' : 'No'}
+                value={!productDetail?.outOfStock ? 'Yes' : 'No'}
               />
               <BlockRender
                 label="Free Delivery"

@@ -132,7 +132,6 @@ export const partnerLoginReducer = (
       };
       break;
     case 'PARTNER_LOGIN_SUCCESS':
-      console.log(payload);
       state = {
         ...state,
         partnerInfo: {
