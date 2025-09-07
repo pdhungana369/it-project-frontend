@@ -130,12 +130,12 @@ export default function ContactUs() {
         {/* Section Header */}
         <div className="mb-16 text-center">
           <h2 className="text-gray-800 mb-4 text-4xl font-bold">
-            Let's Connect & Grow Together
+            Let's Connect!
           </h2>
           <p className="text-gray-600 mx-auto max-w-3xl text-lg">
-            Whether you're a farmer looking to showcase your produce or a buyer
-            seeking fresh agricultural products, we're here to help you succeed
-            in the marketplace.
+            We're always happy to hear from our valued customers. Whether you
+            have a question about your order, need help with our platform, or
+            just want to give us feedback on our produce, we're here for you.
           </p>
         </div>
 
@@ -162,26 +162,27 @@ export default function ContactUs() {
                 Get In Touch
               </h3>
               <p className="text-gray-700 mb-8 text-lg leading-relaxed">
-                Have questions about our platform? Need help connecting with
-                farmers or buyers? Whether you're looking to sell fresh produce
-                or source quality agricultural products, our dedicated team is
-                here to help you succeed in the agricultural marketplace.
+                Have a question about your order? Need a recommendation for the
+                freshest seasonal produce? Want to provide feedback? Our
+                dedicated team at AgroFresh Connect is here to ensure you have
+                the best possible experience.
               </p>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="border-green-100 rounded-lg border bg-white p-4 shadow-sm">
                   <span className="text-green-600 font-semibold">
-                    🌾 For Farmers
+                    🌾 Product Inquiries
                   </span>
                   <p className="text-gray-600 mt-1 text-sm">
-                    Sell your produce directly to buyers
+                    Ask about our current harvest, availability, or product
+                    details.
                   </p>
                 </div>
                 <div className="border-green-100 rounded-lg border bg-white p-4 shadow-sm">
                   <span className="text-green-600 font-semibold">
-                    🛒 For Buyers
+                    📦 Delivery Questions
                   </span>
                   <p className="text-gray-600 mt-1 text-sm">
-                    Source fresh agricultural products
+                    Inquiries about delivery timelines and areas
                   </p>
                 </div>
               </div>
@@ -215,7 +216,7 @@ export default function ContactUs() {
                     Our Address
                   </h3>
                   <p className="text-primary">
-                    123 Agriculture Street
+                    AgroFresh Connect, Pipalbot, Mid Baneshwor
                     <br />
                     Kathmandu, Nepal
                     <br />
@@ -456,12 +457,12 @@ export default function ContactUs() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <div className="rounded-xl bg-white p-6 shadow-lg">
               <h3 className="text-gray-800 mb-3 text-lg font-semibold">
-                How do I become a seller?
+                How do I place an order?
               </h3>
               <p className="text-gray-600">
-                Simply register on our platform, complete your profile
-                verification, and start listing your agricultural products. Our
-                team will guide you through the process.
+                Simply browse our products, add items to your cart, and proceed
+                to checkout. You will need to create an account and enter your
+                delivery address to complete your order using Khalti payment.
               </p>
             </div>
             <div className="rounded-xl bg-white p-6 shadow-lg">
@@ -469,9 +470,9 @@ export default function ContactUs() {
                 What payment methods do you accept?
               </h3>
               <p className="text-gray-600">
-                We accept various payment methods including mobile banking, bank
-                transfers, and digital wallets to ensure secure and convenient
-                transactions.
+                We currently accept secure online payments exclusively through
+                Khalti. This ensures a fast and safe transaction process for all
+                our customers.
               </p>
             </div>
             <div className="rounded-xl bg-white p-6 shadow-lg">
@@ -479,19 +480,19 @@ export default function ContactUs() {
                 Do you provide delivery services?
               </h3>
               <p className="text-gray-600">
-                Yes, we offer delivery services for orders within our service
-                areas. Some products may qualify for free delivery based on
-                order value and location.
+                Yes! We offer delivery services within the Kathmandu Valley.
+                Delivery fees may apply depending on your location. You will see
+                the final cost at checkout before you pay.
               </p>
             </div>
             <div className="rounded-xl bg-white p-6 shadow-lg">
               <h3 className="text-gray-800 mb-3 text-lg font-semibold">
-                How can I track my order?
+                How can I check the status of my order?
               </h3>
               <p className="text-gray-600">
-                Once your order is confirmed, you'll receive a tracking number.
-                You can monitor your order status through your account dashboard
-                or our tracking system.
+                Once your order is placed, you can check its status anytime by
+                logging into your account and clicking on "Order Details". Here
+                you will see if your order is Pending, Dispatched, or Completed.
               </p>
             </div>
           </div>

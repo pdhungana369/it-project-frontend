@@ -48,7 +48,15 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-white py-5">
       <Container>
         <nav className="flex items-center justify-between px-4 md:px-0">
-          <Link to="/" className="text-2xl font-semibold text-primary">
+          <Link
+            to="/"
+            className="flex min-w-max items-center text-2xl font-semibold text-primary"
+          >
+            <img
+              src="/agrofresh.png"
+              alt="AgroFresh Connect Logo"
+              className="mr-2 h-16 w-auto"
+            />
             AgroFresh Connect
           </Link>
 

@@ -6,7 +6,15 @@ export default function Footer() {
     <footer className="bg-[#1c2a4d] px-4 py-10 md:px-0">
       <Container isSection className="grid grid-cols-12 gap-5 md:gap-10">
         <div className="col-span-12 mb-8 md:col-span-4 md:mb-0">
-          <Link to="/" className="text-2xl font-semibold text-[#d1dbe5]">
+          <Link
+            to="/"
+            className="flex min-w-max items-center text-2xl font-semibold text-[#d1dbe5]"
+          >
+            <img
+              src="/agrofresh.png"
+              alt="AgroFresh Connect Logo"
+              className="mr-2 h-28 w-auto"
+            />
             AgroFresh Connect
           </Link>
           <p className="mt-4 w-full leading-6 text-[#d1dbe5] md:max-w-[17rem]"></p>
@@ -54,8 +62,7 @@ export default function Footer() {
           <div>
             <p className="mt-3 text-sm font-semibold">Location</p>
             <p className="py-3 text-[#d1dbe5]">
-              AgroFresh Connect. 3rd Floor Trade Tower, Pipal Bot Baneswor,
-              Kathamdnu. P.O BOX 650-00606, Kathmandu Nepal
+              AgroFresh Connect, Pipalbot, Mid Baneshwor, Kathmandu, Nepal
             </p>
           </div>
           <div className="py-2">

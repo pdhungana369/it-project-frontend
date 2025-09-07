@@ -39,7 +39,7 @@ export default function Auth() {
         <div className="my-3 flex items-center gap-2">
           {showStep === 0 ? (
             <>
-              <p className="text-sm">Are you new to Salon Hub? </p>
+              <p className="text-sm">Are you new to AgroFresh Connect? </p>
               <button
                 className="text-text-color cursor-pointer text-sm font-semibold"
                 type="button"

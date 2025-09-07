@@ -82,53 +82,28 @@ export const orderStatusOptions = [
 
 export const termsConditions = [
   {
-    sectionTitle: '1. Eligibility',
+    sectionTitle: '1. Your Account',
     content:
-      'This Website is intended for use by registered businesses in the pharmaceutical industry. By using our Website, you confirm that you are a legitimate business entity and have the authority to bind your organization to these terms.',
+      'You are responsible for keeping your account login details safe and for all activity under your account.',
   },
   {
-    sectionTitle: '2. Account Registration',
+    sectionTitle: '2. Products & Prices',
     content:
-      'To place orders, you must create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account. Notify us immediately of any unauthorized use or security breaches.',
+      'We try to make sure all product info and prices are accurate, but mistakes can happen. We can correct errors and may limit product quantities. Products are subject to seasonal availability.',
   },
   {
-    sectionTitle: '3. Product Orders',
+    sectionTitle: '3. Orders & Payment',
     content:
-      'All orders are subject to product availability and approval by Oshwal Lifesciences Ltd. We reserve the right to cancel or refuse any order at our discretion. Prices are subject to change without notice.',
+      'Placing an order is your offer to buy. Your order is final once you receive a confirmation email from us. All payments are processed securely through Khalti.',
   },
   {
-    sectionTitle: '4. Payment Terms',
+    sectionTitle: '4. Delivery',
     content:
-      'Payment can be made via M-Pesa or Credit Order. For credit orders, payment terms must be agreed upon in advance and are subject to credit approval. Late payments may incur penalties or suspension of services.',
+      'We deliver to areas within the Kathmandu Valley. We will do our best to deliver on time, but delays can sometimes happen.',
   },
   {
-    sectionTitle: '5. Delivery',
+    sectionTitle: '5. Returns & Refunds',
     content:
-      'Delivery timelines are estimates and may vary based on product availability and location. Risk of loss or damage to products transfers to you upon delivery.',
-  },
-  {
-    sectionTitle: '6. Returns and Refunds',
-    content:
-      'Returns are only accepted for damaged or defective products. Refunds will be processed within 20 days of receiving the returned product and verifying the issue. Refunds will be issued through the original payment method (e.g., M-Pesa or credit account).',
-  },
-  {
-    sectionTitle: '7. Intellectual Property',
-    content:
-      'All content on this Website, including logos, trademarks, and product information, is the property of Oshwal Lifesciences Ltd. and is protected by intellectual property laws. Unauthorized use of any content is strictly prohibited.',
-  },
-  {
-    sectionTitle: '8. Limitation of Liability',
-    content:
-      'We are not liable for any indirect, incidental, or consequential damages arising from the use of our Website or products.',
-  },
-  {
-    sectionTitle: '9. Governing Law',
-    content:
-      'These terms are governed by the laws of Kenya. Any disputes shall be resolved through arbitration or in the courts of Nairobi.',
-  },
-  {
-    sectionTitle: '10. Amendments',
-    content:
-      'We reserve the right to update these terms at any time. Continued use of our Website constitutes acceptance of the revised terms.',
+      'Because we sell fresh food, we generally do not accept returns or offer refunds unless your order arrives damaged, spoiled, or is incorrect. If this happens, please contact us within 24 hours of delivery.',
   },
 ];

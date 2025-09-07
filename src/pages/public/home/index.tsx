@@ -71,13 +71,9 @@ export default function Home() {
               AgroFresh Connect
             </h1>
             <p className="mt-7 leading-8">
-              AgroFresh Connect is a platform that connects farmers with buyers.
-              We are committed to providing a platform for farmers to sell their
-              products and for buyers to buy products from farmers. We are
-              committed to providing a platform for farmers to sell their
-              products and for buyers to buy products from farmers. We are
-              committed to providing a platform for farmers to sell their
-              products and for buyers to buy products from farmers.
+              AgroFresh Connect brings the best of Nepal's harvest directly from
+              our farm to your table. No middlemen. Just fresh, affordable
+              produce.
             </p>
             <Button
               variant="outline"

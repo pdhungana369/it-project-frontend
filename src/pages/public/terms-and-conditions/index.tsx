@@ -20,10 +20,10 @@ export default function TermsAndConditions() {
           Terms & Conditions
         </h1>
         <p className="my-10">
-          Welcome to the Oshwal Lifesciences Ltd. website ("Website"). By
-          accessing or using our Website, you agree to comply with and be bound
-          by the following Terms and Conditions. If you do not agree to these
-          terms, please do not use our Website.
+          Welcome to the AgroFresh Connect website ("Website"). By accessing or
+          using our Website, you agree to comply with and be bound by the
+          following Terms and Conditions. If you do not agree to these terms,
+          please do not use our Website.
         </p>
         {termsConditions?.map((item) => (
           <section className="my-7" key={item?.sectionTitle}>
@@ -32,13 +32,13 @@ export default function TermsAndConditions() {
           </section>
         ))}
         <section className="mt-5 pb-10">
-          <h6 className="my-2 font-semibold">11. Contact Information</h6>
+          <h6 className="my-2 font-semibold">Contact Information</h6>
           <p className="my-2">For inquiries, contact us at:</p>
-          <p className="my-2 font-medium">Phone: 0208006651</p>
-          <p className="my-2 font-medium">Email: info@oshwallifesciences.com</p>
+          <p className="my-2 font-medium">Phone: +977 98XXXXXXXX</p>
+          <p className="my-2 font-medium">Email: info@agrofreshconnect.com</p>
           <p className="my-2 font-medium">
-            Address: Oshwal Lifesciences Ltd., 3rd Floor, 1 Park Avenue, First
-            Parklands Road, Parklands, P.O BOX 650-00606, Nairobi.
+            Address: AgroFresh Connect, Pipalbot, Mid Baneshwor, Kathmandu,
+            Nepal
           </p>
         </section>
       </Container>
